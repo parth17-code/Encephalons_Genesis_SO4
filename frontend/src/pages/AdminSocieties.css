@@ -1,0 +1,128 @@
+.societies-container {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.filters-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.filter-group label {
+  font-weight: 500;
+  color: #2c3e50;
+}
+
+.filter-group select {
+  padding: 0.5rem 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  cursor: pointer;
+  min-width: 150px;
+}
+
+.filter-group select:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-refresh {
+  padding: 0.5rem 1.25rem;
+  background: #2ecc71;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-left: auto;
+}
+
+.btn-refresh:hover {
+  background: #27ae60;
+}
+
+.societies-table-container {
+  overflow-x: auto;
+}
+
+.societies-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.societies-table th {
+  background: #f8f9fa;
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: #2c3e50;
+  font-size: 0.95rem;
+  border-bottom: 2px solid #e9ecef;
+}
+
+.societies-table td {
+  padding: 1rem;
+  border-bottom: 1px solid #e9ecef;
+  color: #2c3e50;
+}
+
+.societies-table tbody tr:hover {
+  background: #f8f9fa;
+}
+
+.society-name {
+  font-weight: 600;
+}
+
+.society-id {
+  font-size: 0.85rem;
+  color: #7f8c8d;
+  margin-top: 0.25rem;
+}
+
+.tax-number {
+  font-family: monospace;
+  font-size: 0.9rem;
+}
+
+.rebate {
+  font-weight: 600;
+  color: #2ecc71;
+}
+
+.score-badge {
+  display: inline-block;
+  padding: 0.375rem 0.75rem;
+  background: #e9ecef;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.no-data {
+  text-align: center;
+  padding: 3rem;
+  color: #7f8c8d;
+  font-size: 1.1rem;
+}
+
+.summary-footer {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e9ecef;
+  color: #7f8c8d;
+  font-weight: 500;
+}

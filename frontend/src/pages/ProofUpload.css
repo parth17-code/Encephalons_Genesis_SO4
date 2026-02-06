@@ -1,0 +1,205 @@
+.upload-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.upload-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+@media (max-width: 900px) {
+  .upload-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.upload-form {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #2c3e50;
+  font-weight: 500;
+}
+
+.form-group input[type="file"] {
+  width: 100%;
+  padding: 0.75rem;
+  border: 2px dashed #e0e0e0;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.form-group input[type="file"]:hover {
+  border-color: #2ecc71;
+}
+
+.image-preview {
+  margin-top: 1rem;
+  border-radius: 8px;
+  overflow: hidden;
+  max-height: 300px;
+}
+
+.image-preview img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.geo-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.geo-inputs input {
+  padding: 0.75rem;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 1rem;
+}
+
+.geo-inputs input:focus {
+  outline: none;
+  border-color: #2ecc71;
+}
+
+.btn-geo {
+  width: 100%;
+  padding: 0.625rem;
+  background: white;
+  border: 2px solid #3498db;
+  color: #3498db;
+  border-radius: 6px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-geo:hover {
+  background: #3498db;
+  color: white;
+}
+
+.btn-submit {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+
+.btn-submit:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.btn-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.result-display {
+  text-align: center;
+}
+
+.result-status {
+  margin-bottom: 1.5rem;
+}
+
+.result-details {
+  margin: 1.5rem 0;
+  text-align: left;
+}
+
+.result-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 0.75rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.result-item .label {
+  color: #7f8c8d;
+  font-weight: 500;
+}
+
+.result-item .value {
+  color: #2c3e50;
+  font-weight: 600;
+}
+
+.success-message,
+.warning-message {
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem 0;
+  font-weight: 500;
+}
+
+.success-message {
+  background: #d4edda;
+  color: #155724;
+}
+
+.warning-message {
+  background: #fff3cd;
+  color: #856404;
+}
+
+.btn-dashboard {
+  width: 100%;
+  padding: 0.875rem;
+  background: #667eea;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 1rem;
+  transition: background 0.2s;
+}
+
+.btn-dashboard:hover {
+  background: #5568d3;
+}
+
+.guidelines {
+  display: grid;
+  gap: 1rem;
+}
+
+.guideline-item {
+  display: flex;
+  gap: 1rem;
+  align-items: start;
+}
+
+.guideline-item .icon {
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.guideline-item strong {
+  display: block;
+  color: #2c3e50;
+  margin-bottom: 0.25rem;
+}
+
+.guideline-item p {
+  margin: 0;
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
