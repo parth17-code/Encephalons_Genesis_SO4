@@ -5,6 +5,8 @@ import { authService } from "../utils/auth";
 import Layout from "../components/Layout";
 import StatusBadge from "../components/StatusBadge";
 import AdminSocieties from "./AdminSocieties";
+import CarbonCreditChart from "../components/CarbonCreditChart";
+import { generateMockCreditTrend } from "../utils/mockCarbonCredits";
 
 const SecretaryDashboard = () => {
   const [rebateData, setRebateData] = useState(null);
@@ -40,6 +42,26 @@ const SecretaryDashboard = () => {
       setLoading(false);
     }
   };
+
+  const calculateCarbonCredits = (wasteStats) => {
+    if (!wasteStats) return { co2Saved: 0, credits: 0 };
+
+    const { organicWaste = 0, wetWaste = 0, recyclableWaste = 0 } = wasteStats;
+
+    const co2Saved =
+      organicWaste * 0.9 + wetWaste * 0.7 + recyclableWaste * 1.2;
+
+    return {
+      co2Saved: Math.round(co2Saved),
+      credits: Math.floor(co2Saved),
+    };
+  };
+
+  const carbonData = summary
+    ? calculateCarbonCredits(summary.wasteStats)
+    : { co2Saved: 0, credits: 0 };
+
+  const creditTrend = generateMockCreditTrend(carbonData.credits);
 
   const rebatePercent = rebateData?.rebatePercent || 0;
   const societyTax = rebateData?.societyTax || 0;
@@ -158,6 +180,67 @@ const SecretaryDashboard = () => {
               <div className="bg-white/10 p-3 rounded-xl flex gap-3">
                 📋 {rebateData.proofCount} proof(s) submitted
               </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Carbon Credits */}
+        <div
+          className="rounded-2xl shadow-lg bg-gradient-to-br
+             from-emerald-700 to-emerald-500 text-white
+             transition-all duration-300 hover:shadow-2xl hover:-translate-y-1"
+        >
+          <div className="border-b border-white/20 px-6 py-4 text-lg font-semibold">
+            🌍 Carbon Credits
+          </div>
+
+          <div className="p-6 text-center space-y-6">
+            {/* Credits */}
+            <div>
+              <div className="text-7xl font-extrabold tracking-tight">
+                {carbonData.credits}
+              </div>
+              <div className="opacity-90">Credits Earned</div>
+            </div>
+
+            {/* CO2 Saved */}
+            <div className="bg-white/15 rounded-xl p-4">
+              <div className="text-3xl font-bold">{carbonData.co2Saved} kg</div>
+              <div className="text-sm opacity-90">CO₂ Emissions Reduced</div>
+            </div>
+
+            {/* Explanation */}
+            <div className="text-sm text-left space-y-2">
+              <div className="bg-white/10 p-3 rounded-lg">
+                ♻️ Based on composting & recycling
+              </div>
+              <div className="bg-white/10 p-3 rounded-lg">
+                🌱 1 credit = 1 kg CO₂ reduced
+              </div>
+              <div className="bg-white/10 p-3 rounded-lg">
+                🔄 Credits usable in society carbon exchange
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Carbon Credit Growth */}
+        <div className="bg-white rounded-2xl shadow-md col-span-2 max-[900px]:col-span-1">
+          <div className="border-b px-6 py-4 text-lg font-semibold text-slate-800">
+            📈 Carbon Credit Growth
+          </div>
+
+          <div className="p-6">
+            <div className="h-[320px]">
+              <CarbonCreditChart
+                labels={creditTrend.weeks}
+                values={creditTrend.data}
+              />
+            </div>
+
+            <div className="mt-4 text-sm text-slate-500 flex gap-4">
+              <span>🌱 Credits increase with waste diversion</span>
+              <span>♻️ Based on weekly segregation performance</span>
             </div>
           </div>
         </div>
