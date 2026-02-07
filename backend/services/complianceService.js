@@ -97,7 +97,8 @@ const calculateRebate = async (societyId) => {
       societyName: society.name,
       complianceStatus: 'RED',
       rebatePercent: 0,
-      message: 'No compliance data available'
+      message: 'No compliance data available',
+      societyTax : 0
     };
   }
 
@@ -117,7 +118,8 @@ const calculateRebate = async (societyId) => {
     proofCount: latestCompliance.proofCount,
     lastProofDate: latestCompliance.lastProofDate,
     daysSinceLastProof: latestCompliance.daysSinceLastProof,
-    complianceScore: latestCompliance.complianceScore
+    complianceScore: latestCompliance.complianceScore,
+    societyTax : Math.floor(Math.random() * (12_00_000 - 8_00_000 + 1)) + 8_00_000
   };
 };
 

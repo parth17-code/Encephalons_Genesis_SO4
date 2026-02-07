@@ -13,11 +13,14 @@ import ResidentSummary from './pages/ResidentSummary';
 import Heatmap from './pages/Heatmap';
 import Register from './pages/Register';
 
+
+
 function App() {
   return (
     <BrowserRouter>
       <Routes>
         {/* Public Route */}
+        
         <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 

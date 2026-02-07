@@ -196,6 +196,7 @@ const getDashboard = async (req, res) => {
 
     // Total proofs
     const totalProofs = await ProofLog.countDocuments();
+    console.log(`📋 Total proofs: ${totalProofs}`);
     const verifiedProofs = await ProofLog.countDocuments({ status: 'VERIFIED' });
     const flaggedProofs = await ProofLog.countDocuments({ status: 'FLAGGED' });
     const rejectedProofs = await ProofLog.countDocuments({ status: 'REJECTED' });
@@ -219,7 +220,7 @@ const getDashboard = async (req, res) => {
       wardBreakdown
     };
 
-    console.log('✅ Dashboard data retrieved');
+    console.log('✅ Dashboard data retrieved', dashboardData);
 
     res.json({
       success: true,

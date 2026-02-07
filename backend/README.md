@@ -158,6 +158,15 @@ Get current user details (requires auth).
 #### POST `/api/society/register`
 Register new society (BMC_ADMIN only).
 
+{
+  "name": "Test Resident",
+  "email": "testresident@greenvalley.com",
+  "password": "test123",
+  "role": "RESIDENT",
+  "societyId": "65fabc1234567890abcdef12"
+}
+
+
 **Headers:**
 ```
 Authorization: Bearer <token>

@@ -172,7 +172,7 @@ const Login = () => {
             </button>
             <div className="mt-4 text-center">
               <p className="text-sm text-gray-600">
-                Don’t have an account?{" "}
+                Don't have an account?{" "}
                 <span
                   onClick={() => navigate("/register")}
                   className="text-green-700 font-medium cursor-pointer hover:underline"

@@ -6,7 +6,9 @@ import StatusBadge from '../components/StatusBadge';
 
 const ResidentSummary = () => {
   const [summary, setSummary] = useState(null);
+  const [rebateData, setRebateData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [showProofs, setShowProofs] = useState(false);
   const [error, setError] = useState('');
 
   const user = authService.getUser();
@@ -19,6 +21,11 @@ const ResidentSummary = () => {
   const fetchSummary = async () => {
     try {
       setLoading(true);
+
+      const rebateRes = await apiService.getRebate(societyId);
+      console.log("📊 Rebate data:", rebateRes.data.data);
+      setRebateData(rebateRes.data.data);
+
       const res = await apiService.getResidentSummary(societyId);
       setSummary(res.data.data);
     } catch (err) {
@@ -27,6 +34,12 @@ const ResidentSummary = () => {
       setLoading(false);
     }
   };
+
+  const rebatePercent = rebateData?.rebatePercent || 0;
+  const societyTax = rebateData?.societyTax || 0;
+
+  // Money saved due to rebate
+  const moneySaved = Math.round((societyTax * rebatePercent) / 100);
 
   const formatDate = (date) =>
     date
@@ -124,20 +137,43 @@ const ResidentSummary = () => {
           </div>
 
           {/* Rebate */}
-          <div className="bg-[#93da97] text-white rounded-xl shadow">
-            <div className="border-b border-white/30 px-6 py-4 font-semibold">
-              Tax Rebate
-            </div>
-            <div className="p-6 text-center">
-              <div className="text-6xl font-bold mb-2">
-                {summary.compliance.rebatePercent}%
+          <div
+          className="rounded-2xl shadow-lg bg-dark-green text-white
+             transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 w-auto"
+        >
+          <div className="border-b border-white/20 px-6 py-4 text-lg font-semibold">
+            Tax Rebate
+          </div>
+
+          <div className="p-6 text-center space-y-6 flex flex-col items-center">
+            <div className="flex flex-col gap-3 justify-center">
+              {/* Rebate Percentage */}
+              <div className="flex flex-col items-center">
+                <div className="text-7xl font-extrabold tracking-tight">
+                  {rebatePercent}%
+                </div>
+                <div className="opacity-90 mb-6">Property Tax Discount</div>
               </div>
-              <div className="text-lg mb-4">Property Tax Discount</div>
-              <div className="text-sm bg-white/20 rounded-md p-3">
-                Based on current compliance performance
+
+              {/* Money Saved */}
+              <div className="flex flex-col items-center">
+                <div className="text-7xl font-extrabold tracking-tight">
+                  ₹{moneySaved.toLocaleString("en-IN")}
+                </div>
+                <div className="opacity-90 mb-6">Money Saved</div>
+              </div>
+            </div>
+
+            <div className="space-y-3 text-left">
+              <div className="bg-white/10 p-3 rounded-xl flex gap-3">
+                📊 Based on compliance performance
+              </div>
+              <div className="bg-white/10 p-3 rounded-xl flex gap-3">
+                📋 {rebateData.proofCount} proof(s) submitted
               </div>
             </div>
           </div>
+        </div>
 
           {/* Waste Stats */}
           <div className="bg-white rounded-xl shadow">
@@ -148,6 +184,8 @@ const ResidentSummary = () => {
               {[
                 ['♻️', summary.wasteStats.recyclableWaste, 'Recyclable Waste'],
                 ['🌱', summary.wasteStats.organicWaste, 'Organic Waste'],
+                ['💧', summary.wasteStats.wetWaste, 'Wet Waste'],
+              ['🌡️', summary.wasteStats.compostPitTemperature, 'Compost Pit Temperature'],
               ].map(([icon, value, label]) => (
                 <div key={label} className="flex gap-4 bg-gray-50 p-4 rounded-lg">
                   <div className="text-3xl">{icon}</div>
@@ -173,37 +211,62 @@ const ResidentSummary = () => {
           </div>
 
           {/* Recent Proofs */}
-          <div className="bg-white rounded-xl shadow">
-            <div className="border-b px-6 py-4 font-semibold text-gray-800">
-              Recent Proofs
-            </div>
-            <div className="p-6 space-y-4">
-              {summary.recentProofs.length === 0 && (
-                <div className="text-center text-gray-500 py-6">
-                  No proofs submitted yet
-                </div>
-              )}
+<div className="bg-white rounded-xl shadow overflow-hidden">
 
-              {summary.recentProofs.map(proof => (
-                <div
-                  key={proof._id}
-                  className="flex gap-4 bg-gray-50 p-4 rounded-lg hover:bg-gray-100 transition"
-                >
-                  <img
-                    src={proof.imageUrl}
-                    alt="Proof"
-                    className="w-20 h-20 rounded-md object-cover"
-                  />
-                  <div className="flex flex-col justify-center gap-2">
-                    <div className="text-sm text-gray-500">
-                      {formatDate(proof.timestamp)}
-                    </div>
-                    <StatusBadge status={proof.status} />
-                  </div>
-                </div>
-              ))}
+  {/* Header (clickable) */}
+  <button
+    onClick={() => setShowProofs(!showProofs)}
+    className="w-full flex items-center justify-between
+               border-b px-6 py-4 font-semibold text-gray-800
+               hover:bg-gray-50 transition"
+  >
+    <span>Recent Proofs</span>
+
+    <span
+      className={`text-lg transition-transform duration-300 ${
+        showProofs ? "rotate-180" : ""
+      }`}
+    >
+      ▾
+    </span>
+  </button>
+
+  {/* Collapsible content */}
+  <div
+    className={`transition-all duration-300 ease-in-out
+                ${showProofs ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0"}
+                overflow-y-auto`}
+  >
+    <div className="p-6 space-y-4">
+      {summary.recentProofs.length === 0 && (
+        <div className="text-center text-gray-500 py-6">
+          No proofs submitted yet
+        </div>
+      )}
+
+      {summary.recentProofs.map((proof) => (
+        <div
+          key={proof._id}
+          className="flex gap-4 bg-gray-50 p-4 rounded-lg
+                     hover:bg-gray-100 transition"
+        >
+          <img
+            src={proof.imageUrl}
+            alt="Proof"
+            className="w-20 h-20 rounded-md object-cover"
+          />
+          <div className="flex flex-col justify-center gap-2">
+            <div className="text-sm text-gray-500">
+              {formatDate(proof.timestamp)}
             </div>
+            <StatusBadge status={proof.status} />
           </div>
+        </div>
+      ))}
+    </div>
+  </div>
+</div>
+
         </div>
 
         {/* Refresh */}
